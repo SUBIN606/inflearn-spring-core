@@ -24,16 +24,19 @@ public class AppConfig {
     /* return 값만 변경하면 바로 구현을 변경/확장 할 수 있다! */
     @Bean
     public MemberService memberService() {
+        System.out.println("called AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("called AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
     @Bean
     public OrderService orderService() {
+        System.out.println("called AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
