@@ -1,5 +1,9 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class MemberServiceImpl implements MemberService{
 
     // 1. 클라이언트(MemberServiceImpl)가 직접 구현체를 선택했었다
@@ -10,6 +14,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     // 3. 생성자를 통해 구현체가 선택된다 (생성자 의존관계 주입)
+    @Autowired  // 의존관계를 자동으로 스프링이 주입해준다
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
