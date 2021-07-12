@@ -1,13 +1,16 @@
 package hello.core;
 
+import hello.core.member.MemberRepository;
+import hello.core.member.MemoryMemberRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
 /* @ComponentScan은 @Component 애노테이션이 붙은 클래스들을 모두 읽는다
-*  @Controller, @Service, @Repository, @Configuration 을 모두 대상에 포함한다
-*  왜냐하면 위의 애너테이션들은 모두 @Component를 포함하고 있기 때문에~
-* */
+ *  @Controller, @Service, @Repository, @Configuration 을 모두 대상에 포함한다
+ *  왜냐하면 위의 애너테이션들은 모두 @Component를 포함하고 있기 때문에~
+ * */
 @ComponentScan(
         // 탐색할 시작 위치 지정 -> 없으면 모든 자바 코드를 탐색하기 때문에 지정해주는 것이 좋다!
         // 지정하지 않으면? 기본 위치: 해당클래스 부터 시작. 즉, basePackage를 지정하지 않아도 현재 클래스가 위치한 hello.core가 기본 시작위치가 된다
@@ -19,5 +22,13 @@ import org.springframework.context.annotation.FilterType;
 )
 @Configuration
 public class AutoAppConfig {
+
+    // 자동 주입 vs 수동 주입 -> 수동 빈이 우선권을 가짐 overriding bean definition ~
+    // 하지만 최근 스프링 부트는 오류를 발생시킴 A bean with that name has already been defined in ~
+    // spring.main.allow-bean-definition-overriding=true 설정을 하면 오류 발생 X
+//    @Bean(name = "memoryMemberRepository")
+//    MemberRepository memberRepository() {
+//        return new MemoryMemberRepository();
+//    }
 
 }
