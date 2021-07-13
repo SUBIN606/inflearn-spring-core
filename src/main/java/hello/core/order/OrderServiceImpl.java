@@ -5,6 +5,7 @@ import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 // 6. Lombok 으로 생성자 의존관계 주입
@@ -29,11 +30,12 @@ public class OrderServiceImpl implements OrderService {
 
     // 5. 생성자 의존관계 주입으로 변경
     private final MemberRepository memberRepository;
-    private final DiscountPolicy discountPolicy;
+//    //private final DiscountPolicy fixDiscountPolicy; // 7. 조회 빈이 두 개 이상일 때 field 명을 특정 빈 이름으로 설정하면 매칭된다.
+    private final DiscountPolicy discountPolicy;        // 9. @Primary가 붙은 우선순위가 우위에 있는 빈을 찾는다.
 
     // 6. Lombok의 RequiredArgsConstructor 으로 생성자 의존관계 주입했기 때문에 주석처리
 //    @Autowired
-//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {    // 8. @Qualifier를 이용해 중복 빈 처리
 //        this.memberRepository = memberRepository;
 //        this.discountPolicy = discountPolicy;
 //    }
