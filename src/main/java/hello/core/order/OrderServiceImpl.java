@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 // 6. Lombok 으로 생성자 의존관계 주입
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Component
 public class OrderServiceImpl implements OrderService {
 
@@ -39,6 +40,14 @@ public class OrderServiceImpl implements OrderService {
 //        this.memberRepository = memberRepository;
 //        this.discountPolicy = discountPolicy;
 //    }
+
+    // 9. 직접 @MainDiscountPolicy 애노테이션을 만들어서 사용
+    // @Qualifier에 값이 문자열이기 때문에 컴파일 시 타입체크가 되지 않음.. 직접 만들어서 사용하면 문제 해결할 수 있음!
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
