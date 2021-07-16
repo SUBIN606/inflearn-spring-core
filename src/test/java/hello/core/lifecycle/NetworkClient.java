@@ -34,12 +34,14 @@ public class NetworkClient /*implements InitializingBean, DisposableBean*/ {
         System.out.println("NetworkClient.disconnect close url = " + url);
     }
 
+    @PostConstruct  // 애노테이션 방식으로 변경. 자바에서 지원하는 애노테이션이기 떄문에 스프링에 국한되지 않는다.
     public void init() {
         System.out.println("NetworkClient.init");
         connect();
         call("초기화 연결 메시지");
     }
 
+    @PreDestroy
     public void close() {
         System.out.println("NetworkClient.close");
         disconnect();
