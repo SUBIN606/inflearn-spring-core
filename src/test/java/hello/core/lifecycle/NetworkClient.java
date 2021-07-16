@@ -1,13 +1,16 @@
 package hello.core.lifecycle;
 
-public class NetworkClient {
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
+public class NetworkClient implements InitializingBean, DisposableBean {
 
     private String url;
 
     public NetworkClient() {
         System.out.println("생성자 호출 url = " + url);
-        connect();                                      // 생성자에서 connect를 호출하므로 아직 url은 null이다.
-        call("초기화 연결 메시지");
+//        connect();                                      // 생성자에서 connect를 호출하므로 아직 url은 null이다.
+//        call("초기화 연결 메시지");
     }
 
     public void setUrl(String url) {    // url을 초기화
@@ -28,4 +31,16 @@ public class NetworkClient {
         System.out.println("NetworkClient.disconnect close url = " + url);
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception { // 의존관계 주입이 끝나면 호출된다
+        System.out.println("NetworkClient.afterPropertiesSet");
+        connect();
+        call("초기화 연결 메시지");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("NetworkClient.destroy");
+        disconnect();
+    }
 }
