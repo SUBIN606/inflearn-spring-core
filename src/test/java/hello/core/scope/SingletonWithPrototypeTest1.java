@@ -2,11 +2,13 @@ package hello.core.scope;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,15 +40,25 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = applicationContext.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+        //assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
     }
 
     @Scope("singleton")     // Scope는 singleton이 default. 생략해도 됨
     @RequiredArgsConstructor
     static class ClientBean {
-        private final PrototypeBean prototypeBean;      // ClientBean 생성 시점에 주입 == 항상 같음
+//        private final PrototypeBean prototypeBean;      // ClientBean 생성 시점에 주입 == 항상 같음
+
+//        private final ObjectProvider<PrototypeBean> prototypeBeanProvider;  // ObjectFactory로 변경해도 가능함
+
+        private final Provider<PrototypeBean> prototypeBeanProvider;
 
         public int logic() {
+            // ObjectProvider 혹은 ObjectFactory를 사용할 때는 getObject()
+//            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();    // getObject()를 호출할 때 스프링 컨테이너에서 찾음. 항상 새로운 프로토타입 빈이 생성된다.
+
+            // Provider는 get()
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
