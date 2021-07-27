@@ -14,17 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 public class LogDemoController {
 
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    //private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     @RequestMapping("log-demo")
     @ResponseBody
     public String logDemo(HttpServletRequest request) throws InterruptedException {
-        MyLogger myLogger = myLoggerProvider.getObject();
+        System.out.println("myLogger = " + myLogger.getClass());
+        //MyLogger myLogger = myLoggerProvider.getObject();
 
         // requestURL같은 웹과 관련된 부분은 컨트롤러까지만 사용해야 한다.
         // 서비스 계층은 웹 기술에 종속되지 않고, 가급적 순수하게 유지하는 것이 유지보수 관점에서 좋음
-        String requestURL = request.getRequestURL().toString();
-        //myLogger.setRequestURL(requestURL);
+
+        /* requestURL을 주입하는 방법을 interceptor로 변경 */
+        // String requestURL = request.getRequestURL().toString();
+        // myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
         //Thread.sleep(1000);

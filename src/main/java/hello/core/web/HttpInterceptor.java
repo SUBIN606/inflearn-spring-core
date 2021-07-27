@@ -14,11 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class HttpInterceptor implements HandlerInterceptor {
 
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    //private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        MyLogger myLogger = myLoggerProvider.getObject();
+        //MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.setRequestURL(request.getRequestURL().toString());
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
