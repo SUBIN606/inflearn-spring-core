@@ -24,10 +24,10 @@ public class LogDemoController {
         // requestURL같은 웹과 관련된 부분은 컨트롤러까지만 사용해야 한다.
         // 서비스 계층은 웹 기술에 종속되지 않고, 가급적 순수하게 유지하는 것이 유지보수 관점에서 좋음
         String requestURL = request.getRequestURL().toString();
-        myLogger.setRequestURL(requestURL);
+        //myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         logDemoService.logic("testId");
         return "OK";
     }
